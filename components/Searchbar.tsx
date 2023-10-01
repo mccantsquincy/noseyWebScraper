@@ -17,9 +17,9 @@ const Searchbar = () => {
     >
       <Input 
         type="text" 
-        placeholder="Search your favorite products"
+        placeholder="Search your favorite products. Enter product link."
       />
-      <Button variant="default">Button</Button>
+      <Button variant="default">Search</Button>
     </form>
   );
 };
