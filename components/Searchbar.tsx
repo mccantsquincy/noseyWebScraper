@@ -3,6 +3,7 @@
 import React, { FormEvent, useState } from "react";
 import { Input } from "./ui/input";
 import { Button } from "@/components/ui/button";
+import { scrapeAndStoreProduct } from "@/lib/actions";
 
 const isValidAmazonLink = (url: string) => {
   try {
@@ -26,7 +27,7 @@ const Searchbar = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [searchPrompt, setSearchPrompt] = useState("");
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async(event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const isValidLink = isValidAmazonLink(searchPrompt);
@@ -37,6 +38,7 @@ const Searchbar = () => {
      setIsLoading(true);
 
      // Scrape amazon products
+     const product = await scrapeAndStoreProduct(searchPrompt)
     } catch (error) {
      console.log(error);
     } finally {
