@@ -14,3 +14,8 @@ export function extractPrice(...elements: any) {
 
   return '';
 }
+
+export function extractCurrency(element: any) {
+  const currencyText = element.text().slice(0, 1);
+  return currencyText ? currencyText : '';
+}
