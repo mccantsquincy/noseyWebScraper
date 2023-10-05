@@ -1,25 +1,43 @@
 "use server";
 
+import Product from "../models/product.model";
 import { connectToDB } from "../mongoose";
 import { scrapeAmazonProduct } from "../scraper";
+import { getAveragePrice, getHighestPrice, getLowestPrice } from "../utils";
 
 export async function scrapeAndStoreProduct(productUrl: string) {
-    if(!productUrl) return;
+  if (!productUrl) return;
 
-    try {
-        const scrapedProduct = await scrapeAmazonProduct(productUrl);
+  try {
+    // store or find scraped product data in database
+    connectToDB();
 
-        if(!scrapedProduct) return;
+    const scrapedProduct = await scrapeAmazonProduct(productUrl);
 
-        // store or find scraped product data in database
-        try {
-            connectToDB();
+    if(!scrapedProduct) return; 
 
-        } catch(error: any) {
-            throw new Error(`Failed to connect to DB ${error.message}`);
-        }
-        
-    } catch (error: any) {
-        throw new Error(`Failed to update product: ${error.message}`)
+    let product = scrapedProduct;
+
+    const existingProduct = await Product.find({
+        url: scrapedProduct.url
+    });
+
+    if(existingProduct) {
+       const updatedPriceHistory = [
+        ...existingProduct.priceHistory,
+        { price: scrapedProduct.currentPrice}
+       ]
+
+       product = {
+        ...scrapedProduct,
+        priceHistory: updatedPriceHistory,
+        lowestPrice: getLowestPrice(updatedPriceHistory),
+        highestPrice: getHighestPrice(updatedPriceHistory),
+        averagePrice: getAveragePrice(updatedPriceHistory),
+      }
     }
+
+  } catch (error: any) {
+    throw new Error(`Failed to update product: ${error.message}`);
+  }
 }
