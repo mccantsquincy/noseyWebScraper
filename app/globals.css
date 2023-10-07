@@ -156,7 +156,7 @@
   }
 
   .dialog-head_text {
-    @apply text-secondary text-lg leading-[24px] font-semibold mt-4;
+    @apply text-gray-900 text-lg leading-[24px] font-semibold mt-4;
   }
 
   .dialog-input_container {
@@ -199,7 +199,7 @@
   }
 
   .product-title {
-    @apply text-secondary text-xl leading-6 font-semibold truncate;
+    @apply text-gray-900 text-xl leading-6 font-semibold truncate;
   }
 
   /* SEARCHBAR INPUT */
