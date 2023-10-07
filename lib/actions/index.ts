@@ -1,5 +1,6 @@
 "use server";
 
+import { AnyArray } from "mongoose";
 import Product from "../models/product.model";
 import { connectToDB } from "../mongoose";
 import { scrapeAmazonProduct } from "../scraper";
@@ -18,12 +19,12 @@ export async function scrapeAndStoreProduct(productUrl: string) {
 
     let product = scrapedProduct;
 
-    const existingProduct = await Product.find({
+    const existingProduct = await Product.findOne({
         url: scrapedProduct.url
     });
 
     if(existingProduct) {
-       const updatedPriceHistory = [
+       const updatedPriceHistory: any = [
         ...existingProduct.priceHistory,
         { price: scrapedProduct.currentPrice}
        ]
