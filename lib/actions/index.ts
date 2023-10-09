@@ -51,7 +51,7 @@ export async function scrapeAndStoreProduct(productUrl: string) {
   }
 }
 
-export async function getProductId(productId: string) {
+export async function getProductById(productId: string) {
   try {
     connectToDB();
 
