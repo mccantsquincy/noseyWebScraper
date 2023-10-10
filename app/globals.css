@@ -135,7 +135,7 @@
   }
 
   .product-hearts {
-    @apply flex items-center gap-2 px-3 py-2 bg-[#FFF0F0] rounded-10;
+    @apply flex items-center gap-2 px-3 py-2 bg-[#FFF0F0];
   }
 
   .product-stars {
