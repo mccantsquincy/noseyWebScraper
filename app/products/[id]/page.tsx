@@ -1,3 +1,4 @@
+import PriceInfoCard from "@/components/PriceInfoCard";
 import { getProductById } from "@/lib/actions";
 import { formatNumber } from "@/lib/utils";
 import Image from "next/image";
@@ -78,7 +79,34 @@ const ProductDetails = async ({ params: { id } }: Props) => {
                      </p>
                 </div>
              </div>
+             <p className="text-sm text-black opacoty-50">
+              <span className="text-primary-green font-semibold">93%</span> Of buyers have recommended this
+             </p>
            </div>
+        </div>
+        <div className="my-7 flex flex-col gap-5">
+          <div className="flex gap-5 flex-wrap">
+            <PriceInfoCard
+              title="Current Price"
+              value={`${product.currency} ${formatNumber(product.currentPrice)}`}
+              borderColor="#b6dff"
+            />
+            <PriceInfoCard
+              title="Average Price"
+              value={`${product.currency} ${formatNumber(product.averagePrice)}`}
+              borderColor="#b6dff"
+            />
+            <PriceInfoCard
+              title="Highest Price"
+              value={`${product.currency} ${formatNumber(product.highestPrice)}`}
+              borderColor="#b6dff"
+            />
+            <PriceInfoCard
+              title="Lowest Price"
+              value={`${product.currency} ${formatNumber(product.lowestPrice)}`}
+              borderColor="#b6dff"
+            />
+          </div>
         </div>
       </div>
     </div>
