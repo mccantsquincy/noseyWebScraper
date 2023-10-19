@@ -2,6 +2,8 @@
 
 import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
+import { Input } from "./ui/input";
+import { Button } from "./ui/button";
 
 const Modal = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -10,6 +12,10 @@ const Modal = () => {
 
   const closeModal = () => setIsOpen(false);
 
+  const handleSubmit = async() => {
+    // handle logic that tracks product
+  }
+
   return (
     <>
       <button type="button" className="btn" onClick={openModal}>
@@ -17,20 +23,31 @@ const Modal = () => {
       </button>
 
       <Transition appear show={isOpen} as={Fragment}>
-        <Dialog as="div" onClose={closeModal} className="dialog-container">
-          <Dialog.Panel>
-            <Dialog.Title>Deactivate account</Dialog.Title>
-            <Dialog.Description>
-              This will permanently deactivate your account
+        <Dialog
+          as="div"
+          onClose={closeModal}
+          className="dialog-container flex items-center justify-center"
+        >
+          <Dialog.Panel className="dialog-content">
+            <div>close btn</div>
+            <Dialog.Title className="dialog-head_text">
+              Stay updated with the best market prices straight to your inbox!
+            </Dialog.Title>
+            <Dialog.Description className="my-4">
+              Never miss the best prices again.
             </Dialog.Description>
 
-            <p>
-              Are you sure you want to deactivate your account? All of your data
-              will be permanently removed. This action cannot be undone.
-            </p>
+            <Input
+              className="text-neutral-900"
+              type="email"
+              placeholder="your-email@gmail.com"
+            />
 
-            <button onClick={() => setIsOpen(false)}>Deactivate</button>
-            <button onClick={() => setIsOpen(false)}>Cancel</button>
+            <Button 
+              onClick={handleSubmit}
+              className="w-full my-4">
+                Track product
+            </Button>
           </Dialog.Panel>
         </Dialog>
       </Transition>
