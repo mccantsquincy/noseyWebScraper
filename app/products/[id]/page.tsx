@@ -1,3 +1,4 @@
+import Modal from "@/components/Modal";
 import PriceInfoCard from "@/components/PriceInfoCard";
 import ProductCard from "@/components/ProductCard";
 import { Button } from "@/components/ui/button";
@@ -129,7 +130,7 @@ const ProductDetails = async ({ params: { id } }: Props) => {
                 borderColor="#b6dff"
               />
             </div>
-            Modal
+            <Modal />
           </div>
 
           <div className="flex flex-col gap-16">
