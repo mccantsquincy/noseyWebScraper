@@ -1,20 +1,38 @@
 "use client";
 
-import { Fragment, useState } from "react";
+import { FormEvent, Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
+import { addUserEmailToProduct } from "@/lib/actions";
 
-const Modal = () => {
+interface Props {
+  productId: string;
+}
+
+const Modal = ({ productId } : Props) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [email, setEmail] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const openModal = () => setIsOpen(true);
 
   const closeModal = () => setIsOpen(false);
 
-  const handleSubmit = async() => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     // handle logic that tracks product
-  }
+    e.preventDefault();
+
+    setIsSubmitting(true);
+
+    await addUserEmailToProduct(productId, email);
+
+    setIsSubmitting(false);
+
+    setEmail('');
+
+    closeModal();
+  };
 
   return (
     <>
@@ -37,17 +55,21 @@ const Modal = () => {
               Never miss the best prices again.
             </Dialog.Description>
 
-            <Input
-              className="text-neutral-900"
-              type="email"
-              placeholder="your-email@gmail.com"
-            />
+            <form action="" onSubmit={handleSubmit}>
+              <Input
+                required
+                id="email"
+                value={email}
+                className="text-neutral-900"
+                type="email"
+                placeholder="your-email@gmail.com"
+                onChange={(e) => setEmail(e.target.value)}
+              />
 
-            <Button 
-              onClick={handleSubmit}
-              className="w-full my-4">
-                Track product
-            </Button>
+              <Button type="submit" className="w-full my-4">
+                {isSubmitting ? "Submitting..." : "Track"}
+              </Button>
+            </form>
           </Dialog.Panel>
         </Dialog>
       </Transition>
