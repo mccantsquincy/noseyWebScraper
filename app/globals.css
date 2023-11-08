@@ -168,7 +168,7 @@
   }
 
   .dialog-btn {
-    @apply px-5 py-3 text-white text-base font-semibold border border-secondary bg-secondary rounded-lg mt-8;
+    @apply px-5 py-3 text-white text-base font-semibold border border-secondary bg-blue-700 hover:bg-blue-900 transition-all rounded-lg mt-8;
   }
 
   /* NAVBAR */
