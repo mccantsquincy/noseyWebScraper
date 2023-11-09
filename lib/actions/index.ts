@@ -6,6 +6,7 @@ import { connectToDB } from "../mongoose";
 import { scrapeAmazonProduct } from "../scraper";
 import { getAveragePrice, getHighestPrice, getLowestPrice } from "../utils";
 import { User } from "@/types";
+import { generateEmailBody, sendEmail } from "../nodemailer";
 
 export async function scrapeAndStoreProduct(productUrl: string) {
   if (!productUrl) return;
@@ -98,6 +99,13 @@ export async function getSimilarProducts(productId: string) {
 
 }
 
+/*
+  this function connects to mongodb then checks to see if the product exists in the database
+  if the product is in the database, it'll then check to see if the userEmail passed in as a parameter 
+  exists in the users array of the product. If not it will add the new user object with the provided email to the users array.
+  Then it saves the updated product in the database.
+
+*/
 export async function addUserEmailToProduct(productId: string, userEmail: string) {
   try {
     connectToDB();
@@ -113,7 +121,9 @@ export async function addUserEmailToProduct(productId: string, userEmail: string
 
       await product.save()
 
-      // implement email mailer
+      const emailContent = await generateEmailBody(product, "WELCOME");
+
+      await sendEmail(emailContent, [userEmail]);
     }
 
   } catch (error) {
